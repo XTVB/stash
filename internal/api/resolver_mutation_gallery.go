@@ -53,6 +53,7 @@ func (r *mutationResolver) GalleryCreate(ctx context.Context, input GalleryCreat
 	newGallery.Photographer = translator.string(input.Photographer)
 	newGallery.Rating = input.Rating100
 	newGallery.Organized = translator.bool(input.Organized)
+	newGallery.Favorite = translator.bool(input.Favorite)
 
 	var err error
 
@@ -197,6 +198,7 @@ func (r *mutationResolver) galleryUpdate(ctx context.Context, input models.Galle
 	updatedGallery.Photographer = translator.optionalString(input.Photographer, "photographer")
 	updatedGallery.Rating = translator.optionalInt(input.Rating100, "rating100")
 	updatedGallery.Organized = translator.optionalBool(input.Organized, "organized")
+	updatedGallery.Favorite = translator.optionalBool(input.Favorite, "favorite")
 
 	updatedGallery.Date, err = translator.optionalDate(input.Date, "date")
 	if err != nil {
@@ -278,6 +280,7 @@ func (r *mutationResolver) BulkGalleryUpdate(ctx context.Context, input BulkGall
 	updatedGallery.Photographer = translator.optionalString(input.Photographer, "photographer")
 	updatedGallery.Rating = translator.optionalInt(input.Rating100, "rating100")
 	updatedGallery.Organized = translator.optionalBool(input.Organized, "organized")
+	updatedGallery.Favorite = translator.optionalBool(input.Favorite, "favorite")
 	updatedGallery.URLs = translator.optionalURLsBulk(input.Urls, input.URL)
 
 	updatedGallery.Date, err = translator.optionalDate(input.Date, "date")

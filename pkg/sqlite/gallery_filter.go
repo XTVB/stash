@@ -89,6 +89,7 @@ func (qb *galleryFilterHandler) criterionHandler() criterionHandler {
 		intCriterionHandler(filter.Rating100, "galleries.rating", nil),
 		qb.urlsCriterionHandler(filter.URL),
 		boolCriterionHandler(filter.Organized, "galleries.organized", nil),
+		boolCriterionHandler(filter.Favorite, "galleries.favorite", nil),
 		qb.missingCriterionHandler(filter.IsMissing),
 		qb.tagsCriterionHandler(filter.Tags),
 		qb.tagCountCriterionHandler(filter.TagCount),

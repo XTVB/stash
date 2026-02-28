@@ -27,6 +27,8 @@ type ImageFilterType struct {
 	URL *StringCriterionInput `json:"url"`
 	// Filter by organized
 	Organized *bool `json:"organized"`
+	// Filter by favorite
+	Favorite *bool `json:"favorite"`
 	// Filter by o-counter
 	OCounter *IntCriterionInput `json:"o_counter"`
 	// Filter by resolution
@@ -82,6 +84,7 @@ type ImageUpdateInput struct {
 	Photographer     *string            `json:"photographer"`
 	Rating100        *int               `json:"rating100"`
 	Organized        *bool              `json:"organized"`
+	Favorite         *bool              `json:"favorite"`
 	SceneIds         []string           `json:"scene_ids"`
 	StudioID         *string            `json:"studio_id"`
 	TagIds           []string           `json:"tag_ids"`

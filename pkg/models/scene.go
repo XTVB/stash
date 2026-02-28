@@ -49,6 +49,8 @@ type SceneFilterType struct {
 	Rating100 *IntCriterionInput `json:"rating100"`
 	// Filter by organized
 	Organized *bool `json:"organized"`
+	// Filter by favorite
+	Favorite *bool `json:"favorite"`
 	// Filter by o-counter
 	OCounter *IntCriterionInput `json:"o_counter"`
 	// Filter Scenes by duplication criteria
@@ -183,6 +185,7 @@ type SceneCreateInput struct {
 	Date         *string           `json:"date"`
 	Rating100    *int              `json:"rating100"`
 	Organized    *bool             `json:"organized"`
+	Favorite     *bool             `json:"favorite"`
 	StudioID     *string           `json:"studio_id"`
 	GalleryIds   []string          `json:"gallery_ids"`
 	PerformerIds []string          `json:"performer_ids"`
@@ -212,6 +215,7 @@ type SceneUpdateInput struct {
 	Rating100        *int              `json:"rating100"`
 	OCounter         *int              `json:"o_counter"`
 	Organized        *bool             `json:"organized"`
+	Favorite         *bool             `json:"favorite"`
 	StudioID         *string           `json:"studio_id"`
 	GalleryIds       []string          `json:"gallery_ids"`
 	PerformerIds     []string          `json:"performer_ids"`

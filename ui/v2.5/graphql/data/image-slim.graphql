@@ -8,6 +8,7 @@ fragment SlimImageData on Image {
   photographer
   rating100
   organized
+  favorite
   o_counter
 
   paths {

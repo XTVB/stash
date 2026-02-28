@@ -9,6 +9,7 @@ fragment SceneData on Scene {
   rating100
   o_counter
   organized
+  favorite
   interactive
   interactive_speed
   captions {

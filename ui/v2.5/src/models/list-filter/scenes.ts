@@ -29,7 +29,10 @@ import {
   DuplicatedCriterionOption,
   PhashCriterionOption,
 } from "./criteria/phash";
-import { PerformerFavoriteCriterionOption } from "./criteria/favorite";
+import {
+  FavoriteSceneCriterionOption,
+  PerformerFavoriteCriterionOption,
+} from "./criteria/favorite";
 import { CaptionsCriterionOption } from "./criteria/captions";
 import { StashIDCriterionOption } from "./criteria/stash-ids";
 import { RatingCriterionOption } from "./criteria/rating";
@@ -105,6 +108,7 @@ const criterionOptions = [
   PhashCriterionOption,
   DuplicatedCriterionOption,
   OrganizedCriterionOption,
+  FavoriteSceneCriterionOption,
   RatingCriterionOption,
   createMandatoryNumberCriterionOption("o_counter", "o_count", {
     sfwMessageID: "o_count_sfw",

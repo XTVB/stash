@@ -1,0 +1,22 @@
+.favourites-page {
+  margin-left: 15px;
+  margin-right: 15px;
+  width: 100%;
+
+  > nav {
+    align-content: center;
+    border-bottom: solid 2px #192127;
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    padding: 5px 0;
+  }
+
+  > .tab-content {
+    padding-bottom: 0;
+  }
+
+  .item-list-container {
+    padding-top: 15px;
+  }
+}

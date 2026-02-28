@@ -48,6 +48,7 @@ type Scene {
   # rating expressed as 1-100
   rating100: Int
   organized: Boolean!
+  favorite: Boolean!
   o_counter: Int
   interactive: Boolean!
   interactive_speed: Int
@@ -106,6 +107,7 @@ input SceneCreateInput {
   # rating expressed as 1-100
   rating100: Int
   organized: Boolean
+  favorite: Boolean
   studio_id: ID
   gallery_ids: [ID!]
   performer_ids: [ID!]
@@ -141,6 +143,7 @@ input SceneUpdateInput {
   o_counter: Int
     @deprecated(reason: "Unsupported - Use sceneIncrementO/sceneDecrementO")
   organized: Boolean
+  favorite: Boolean
   studio_id: ID
   gallery_ids: [ID!]
   performer_ids: [ID!]
@@ -190,6 +193,7 @@ input BulkSceneUpdateInput {
   # rating expressed as 1-100
   rating100: Int
   organized: Boolean
+  favorite: Boolean
   studio_id: ID
   gallery_ids: BulkUpdateIds
   performer_ids: BulkUpdateIds

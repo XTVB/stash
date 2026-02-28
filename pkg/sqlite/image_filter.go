@@ -85,6 +85,7 @@ func (qb *imageFilterHandler) criterionHandler() criterionHandler {
 		intCriterionHandler(imageFilter.Rating100, "images.rating", nil),
 		intCriterionHandler(imageFilter.OCounter, "images.o_counter", nil),
 		boolCriterionHandler(imageFilter.Organized, "images.organized", nil),
+		boolCriterionHandler(imageFilter.Favorite, "images.favorite", nil),
 		&dateCriterionHandler{imageFilter.Date, "images.date", nil},
 		qb.urlsCriterionHandler(imageFilter.URL),
 

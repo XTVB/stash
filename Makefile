@@ -349,6 +349,46 @@ endif
 server-clean:
 	$(RMDIR) .local
 
+# Dev workflow: build fork and install as Stash.app
+STASH_PROD_DB := $(HOME)/.stash/stash-go.sqlite
+STASH_BACKUP_DIR := $(HOME)/.stash/backups
+STASH_APP_DEST := /Applications/Stash.app
+
+# Back up DB only when schema version is behind (i.e. migrations will run)
+.PHONY: db-backup
+db-backup:
+	@if [ ! -f "$(STASH_PROD_DB)" ]; then echo "No DB yet, skipping backup."; exit 0; fi
+	@DB_VER=$$(sqlite3 "$(STASH_PROD_DB)" "SELECT version FROM schema_migrations LIMIT 1" 2>/dev/null || echo "0"); \
+	 APP_VER=$(shell grep 'appSchemaVersion.*=' pkg/sqlite/database.go | grep -o '[0-9]*'); \
+	 if [ "$$DB_VER" -lt "$$APP_VER" ]; then \
+	   mkdir -p "$(STASH_BACKUP_DIR)"; \
+	   BACKUP_FILE="$(STASH_BACKUP_DIR)/stash-go.sqlite.v$${DB_VER}-to-v$${APP_VER}.$$(date +%Y%m%d_%H%M%S).bak"; \
+	   cp "$(STASH_PROD_DB)" "$$BACKUP_FILE"; \
+	   echo "Migration v$$DB_VER → v$$APP_VER: backed up to $$BACKUP_FILE ($$(du -h "$$BACKUP_FILE" | cut -f1))"; \
+	 else \
+	   echo "DB already at v$$DB_VER, no backup needed."; \
+	 fi
+
+# Run backend + frontend dev servers with hot reload (uses prod DB)
+.PHONY: dev
+dev: db-backup build-flags ui-env
+	@trap 'kill 0' INT TERM EXIT; \
+	 go run $(BUILD_FLAGS) ./cmd/stash & \
+	 (cd ui/v2.5 && npm run start -- --host) & \
+	 wait
+
+# Build UI + Go binary, package as Stash.app, install to /Applications
+.PHONY: deploy-dev
+deploy-dev: db-backup ui stash-macapp
+	@echo "Stopping running Stash..."
+	@-pkill -x stash 2>/dev/null; sleep 1
+	@echo "Installing Stash.app → $(STASH_APP_DEST)"
+	@rm -rf "$(STASH_APP_DEST)"
+	@cp -R Stash.app "$(STASH_APP_DEST)"
+	@rm -rf Stash.app
+	@echo "Launching..."
+	@open "$(STASH_APP_DEST)"
+
 # installs UI dependencies. Run when first cloning repository, or if UI
 # dependencies have changed
 # If CI is set, configures pnpm to use a local store to avoid

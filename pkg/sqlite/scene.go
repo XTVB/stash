@@ -87,6 +87,7 @@ type sceneRow struct {
 	// expressed as 1-100
 	Rating       null.Int  `db:"rating"`
 	Organized    bool      `db:"organized"`
+	Favorite     bool      `db:"favorite"`
 	StudioID     null.Int  `db:"studio_id,omitempty"`
 	CreatedAt    Timestamp `db:"created_at"`
 	UpdatedAt    Timestamp `db:"updated_at"`
@@ -107,6 +108,7 @@ func (r *sceneRow) fromScene(o models.Scene) {
 	r.DatePrecision = datePrecisionFromDatePtr(o.Date)
 	r.Rating = intFromPtr(o.Rating)
 	r.Organized = o.Organized
+	r.Favorite = o.Favorite
 	r.StudioID = intFromPtr(o.StudioID)
 	r.CreatedAt = Timestamp{Timestamp: o.CreatedAt}
 	r.UpdatedAt = Timestamp{Timestamp: o.UpdatedAt}
@@ -133,6 +135,7 @@ func (r *sceneQueryRow) resolve() *models.Scene {
 		Date:      r.Date.DatePtr(r.DatePrecision),
 		Rating:    nullIntPtr(r.Rating),
 		Organized: r.Organized,
+		Favorite:  r.Favorite,
 		StudioID:  nullIntPtr(r.StudioID),
 
 		PrimaryFileID: nullIntFileIDPtr(r.PrimaryFileID),
@@ -165,6 +168,7 @@ func (r *sceneRowRecord) fromPartial(o models.ScenePartial) {
 	r.setNullDate("date", "date_precision", o.Date)
 	r.setNullInt("rating", o.Rating)
 	r.setBool("organized", o.Organized)
+	r.setBool("favorite", o.Favorite)
 	r.setNullInt("studio_id", o.StudioID)
 	r.setTimestamp("created_at", o.CreatedAt)
 	r.setTimestamp("updated_at", o.UpdatedAt)

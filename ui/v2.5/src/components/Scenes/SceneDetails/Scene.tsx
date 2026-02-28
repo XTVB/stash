@@ -31,6 +31,7 @@ import SceneQueue, { QueuedScene } from "src/models/sceneQueue";
 import { ListFilterModel } from "src/models/list-filter/filter";
 import Mousetrap from "mousetrap";
 import { OrganizedButton } from "./OrganizedButton";
+import { FavoriteIcon } from "src/components/Shared/FavoriteIcon";
 import { useConfigurationContext } from "src/hooks/Config";
 import {
   getAbLoopPlugin,
@@ -263,6 +264,9 @@ const ScenePage: React.FC<IProps> = PatchComponent("ScenePage", (props) => {
     Mousetrap.bind("c d", () => {
       onGenerateScreenshot();
     });
+    Mousetrap.bind("f", () => {
+      setFavorite(!scene.favorite);
+    });
 
     return () => {
       Mousetrap.unbind("a");
@@ -279,6 +283,7 @@ const ScenePage: React.FC<IProps> = PatchComponent("ScenePage", (props) => {
       Mousetrap.unbind(",");
       Mousetrap.unbind("c c");
       Mousetrap.unbind("c d");
+      Mousetrap.unbind("f");
     };
   });
 
@@ -314,6 +319,21 @@ const ScenePage: React.FC<IProps> = PatchComponent("ScenePage", (props) => {
       Toast.error(e);
     } finally {
       setOrganizedLoading(false);
+    }
+  };
+
+  const setFavorite = async (v: boolean) => {
+    try {
+      await updateScene({
+        variables: {
+          input: {
+            id: scene.id,
+            favorite: v,
+          },
+        },
+      });
+    } catch (e) {
+      Toast.error(e);
     }
   };
 
@@ -718,6 +738,12 @@ const ScenePage: React.FC<IProps> = PatchComponent("ScenePage", (props) => {
                 <OCounterButton
                   value={scene.o_counter ?? 0}
                   onIncrement={() => onIncrementOClick()}
+                />
+              </span>
+              <span>
+                <FavoriteIcon
+                  favorite={scene.favorite}
+                  onToggleFavorite={(v) => setFavorite(v)}
                 />
               </span>
               <span>

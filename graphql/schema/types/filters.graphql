@@ -284,6 +284,8 @@ input SceneFilterType {
   rating100: IntCriterionInput
   "Filter by organized"
   organized: Boolean
+  "Filter by favorite"
+  favorite: Boolean
   "Filter by o-counter"
   o_counter: IntCriterionInput
   "Filter Scenes by duplication criteria"
@@ -552,6 +554,8 @@ input GalleryFilterType {
   rating100: IntCriterionInput
   "Filter by organized"
   organized: Boolean
+  "Filter by favorite"
+  favorite: Boolean
   "Filter by average image resolution"
   average_resolution: ResolutionCriterionInput
   "Filter to only include galleries that have chapters. `true` or `false`"
@@ -728,6 +732,8 @@ input ImageFilterType {
   url: StringCriterionInput
   "Filter by organized"
   organized: Boolean
+  "Filter by favorite"
+  favorite: Boolean
   "Filter by o-counter"
   o_counter: IntCriterionInput
   "Filter by resolution"

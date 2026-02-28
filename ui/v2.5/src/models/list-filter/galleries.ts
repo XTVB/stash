@@ -4,7 +4,10 @@ import {
   createDateCriterionOption,
   createMandatoryTimestampCriterionOption,
 } from "./criteria/criterion";
-import { PerformerFavoriteCriterionOption } from "./criteria/favorite";
+import {
+  FavoriteGalleryCriterionOption,
+  PerformerFavoriteCriterionOption,
+} from "./criteria/favorite";
 import { GalleryIsMissingCriterionOption } from "./criteria/is-missing";
 import { OrganizedCriterionOption } from "./criteria/organized";
 import { HasChaptersCriterionOption } from "./criteria/has-chapters";
@@ -58,6 +61,7 @@ const criterionOptions = [
   createStringCriterionOption("checksum", "media_info.md5"),
   RatingCriterionOption,
   OrganizedCriterionOption,
+  FavoriteGalleryCriterionOption,
   AverageResolutionCriterionOption,
   GalleryIsMissingCriterionOption,
   TagsCriterionOption,

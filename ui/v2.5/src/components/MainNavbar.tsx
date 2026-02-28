@@ -94,6 +94,10 @@ const messages = defineMessages({
     id: "statistics",
     defaultMessage: "Statistics",
   },
+  favourites: {
+    id: "favourites",
+    defaultMessage: "Favourites",
+  },
 });
 
 const allMenuItems: IMenuItem[] = [
@@ -159,6 +163,13 @@ const allMenuItems: IMenuItem[] = [
     hotkey: "g t",
     userCreatable: true,
   },
+  {
+    name: "favourites",
+    message: messages.favourites,
+    href: "/favourites",
+    icon: faHeart,
+    hotkey: "g f",
+  },
 ];
 
 const newPathsList = allMenuItems
@@ -202,8 +213,10 @@ export const MainNavbar: React.FC = () => {
       return item;
     });
 
-    return allMenuItems.filter((menuItem) =>
-      cfgMenuItems!.includes(menuItem.name)
+    return allMenuItems.filter(
+      (menuItem) =>
+        cfgMenuItems!.includes(menuItem.name) ||
+        menuItem.name === "favourites"
     );
   }, [configuration]);
 

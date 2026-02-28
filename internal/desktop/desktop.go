@@ -169,6 +169,17 @@ func RevealInFileManager(path string) error {
 	return revealInFileManager(absPath, info)
 }
 
+// OpenFileInExplorer reveals the file or folder at the given path in the system file manager.
+// Unlike RevealInFileManager, this does not require the desktop environment check,
+// allowing it to be triggered from the web UI.
+func OpenFileInExplorer(path string) error {
+	info, err := os.Stat(path)
+	if err != nil {
+		return fmt.Errorf("path does not exist: %s", path)
+	}
+	return revealInFileManager(path, info)
+}
+
 func getServerURL(path string) string {
 	c := config.GetInstance()
 	serverAddress := c.GetHost()

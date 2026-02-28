@@ -266,6 +266,13 @@ func (r *mutationResolver) DestroyFiles(ctx context.Context, ids []string) (ret 
 	return true, nil
 }
 
+func (r *mutationResolver) OpenFilePath(ctx context.Context, path string) (bool, error) {
+	if err := desktop.OpenFileInExplorer(path); err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
 func (r *mutationResolver) FileSetFingerprints(ctx context.Context, input FileSetFingerprintsInput) (bool, error) {
 	fileIDInt, err := strconv.Atoi(input.ID)
 	if err != nil {

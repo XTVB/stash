@@ -13,6 +13,8 @@ import { RatingBanner } from "../Shared/RatingBanner";
 import { faBox, faPlayCircle, faTag } from "@fortawesome/free-solid-svg-icons";
 import { galleryTitle } from "src/core/galleries";
 import { StudioOverlay } from "../Shared/GridCard/StudioOverlay";
+import { FavoriteIcon } from "../Shared/FavoriteIcon";
+import { useGalleryUpdate } from "src/core/StashService";
 import { GalleryPreviewScrubber } from "./GalleryPreviewScrubber";
 import cx from "classnames";
 import { useHistory } from "react-router-dom";
@@ -198,16 +200,33 @@ const GalleryCardDetails = PatchComponent(
 const GalleryCardOverlays = PatchComponent(
   "GalleryCard.Overlays",
   (props: IGalleryCardProps) => {
-    const ret = useMemo(() => {
-      return (
+    const [updateGallery] = useGalleryUpdate();
+
+    function onToggleFavorite(v: boolean) {
+      updateGallery({
+        variables: {
+          input: {
+            id: props.gallery.id,
+            favorite: v,
+          },
+        },
+      });
+    }
+
+    return (
+      <>
+        <FavoriteIcon
+          favorite={props.gallery.favorite}
+          onToggleFavorite={onToggleFavorite}
+          size="2x"
+          className="hide-not-favorite"
+        />
         <StudioOverlay
           studio={props.gallery.studio}
           disabled={props.selecting}
         />
-      );
-    }, [props.gallery.studio, props.selecting]);
-
-    return ret;
+      </>
+    );
   }
 );
 

@@ -46,6 +46,7 @@ import {
   faBars,
   faImages,
 } from "@fortawesome/free-solid-svg-icons";
+import { FavoriteIcon } from "src/components/Shared/FavoriteIcon";
 import { RatingSystem } from "src/components/Shared/Rating/RatingSystem";
 import { useDebounce } from "../debounce";
 import { isVideo } from "src/utils/visualFile";
@@ -744,6 +745,19 @@ export const LightboxComponent: React.FC<IProps> = ({
       }
     }
 
+    function setFavorite(v: boolean) {
+      if (currentImage?.id) {
+        updateImage({
+          variables: {
+            input: {
+              id: currentImage.id,
+              favorite: v,
+            },
+          },
+        });
+      }
+    }
+
     async function onIncrementClick() {
       if (currentImage?.id === undefined) return;
       try {
@@ -834,6 +848,12 @@ export const LightboxComponent: React.FC<IProps> = ({
                 {renderOptionsForm()}
               </InputGroup>
             </div>
+            {currentImage?.id && (
+              <FavoriteIcon
+                favorite={currentImage?.favorite ?? false}
+                onToggleFavorite={(v) => setFavorite(v)}
+              />
+            )}
             {slideshowEnabled && (
               <Button
                 variant="link"

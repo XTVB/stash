@@ -431,6 +431,9 @@ type Mutation {
   "Reveal the folder in the system file manager"
   revealFolderInFileManager(id: ID!): Boolean!
 
+  "Opens the file path in the system file manager"
+  openFilePath(path: String!): Boolean!
+
   # Saved filters
   saveFilter(input: SaveFilterInput!): SavedFilter!
   destroySavedFilter(input: DestroyFilterInput!): Boolean!

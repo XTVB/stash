@@ -23,6 +23,7 @@ import Mousetrap from "mousetrap";
 import { useGalleryLightbox } from "src/hooks/Lightbox/hooks";
 import { useToast } from "src/hooks/Toast";
 import { OrganizedButton } from "src/components/Scenes/SceneDetails/OrganizedButton";
+import { FavoriteIcon } from "src/components/Shared/FavoriteIcon";
 import { GalleryEditPanel } from "./GalleryEditPanel";
 import { GalleryDetailPanel } from "./GalleryDetailPanel";
 import { DeleteGalleriesDialog } from "../DeleteGalleriesDialog";
@@ -115,6 +116,21 @@ export const GalleryPage: React.FC<IProps> = ({ gallery, add }) => {
       Toast.error(e);
     } finally {
       setOrganizedLoading(false);
+    }
+  };
+
+  const setFavorite = async (v: boolean) => {
+    try {
+      await updateGallery({
+        variables: {
+          input: {
+            id: gallery.id,
+            favorite: v,
+          },
+        },
+      });
+    } catch (e) {
+      Toast.error(e);
     }
   };
 
@@ -438,6 +454,12 @@ export const GalleryPage: React.FC<IProps> = ({ gallery, add }) => {
               />
             </span>
             <span className="gallery-toolbar-group">
+              <span>
+                <FavoriteIcon
+                  favorite={gallery.favorite}
+                  onToggleFavorite={(v) => setFavorite(v)}
+                />
+              </span>
               <span>
                 <OrganizedButton
                   loading={organizedLoading}

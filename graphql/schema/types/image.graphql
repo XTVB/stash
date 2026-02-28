@@ -11,6 +11,7 @@ type Image {
   photographer: String
   o_counter: Int
   organized: Boolean!
+  favorite: Boolean!
   created_at: Time!
   updated_at: Time!
 
@@ -45,6 +46,7 @@ input ImageUpdateInput {
   # rating expressed as 1-100
   rating100: Int
   organized: Boolean
+  favorite: Boolean
   url: String @deprecated(reason: "Use urls")
   urls: [String!]
   date: String
@@ -68,6 +70,7 @@ input BulkImageUpdateInput {
   # rating expressed as 1-100
   rating100: Int
   organized: Boolean
+  favorite: Boolean
   url: String @deprecated(reason: "Use urls")
   urls: BulkUpdateStrings
   date: String

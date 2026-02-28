@@ -269,6 +269,13 @@ func (db *Database) initialise() error {
 		return fmt.Errorf("opening write database: %w", err)
 	}
 
+	// Apply fork-specific schema changes idempotently.
+	// This runs on every startup so fork columns are always present
+	// regardless of migration version numbering.
+	if err := ensureForkSchema(context.Background(), db.writeDB); err != nil {
+		return fmt.Errorf("applying fork schema: %w", err)
+	}
+
 	return nil
 }
 

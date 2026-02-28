@@ -16,6 +16,7 @@ type Gallery {
   # rating expressed as 1-100
   rating100: Int
   organized: Boolean!
+  favorite: Boolean!
   created_at: Time!
   updated_at: Time!
 
@@ -47,6 +48,7 @@ input GalleryCreateInput {
   # rating expressed as 1-100
   rating100: Int
   organized: Boolean
+  favorite: Boolean
   scene_ids: [ID!]
   studio_id: ID
   tag_ids: [ID!]
@@ -68,6 +70,7 @@ input GalleryUpdateInput {
   # rating expressed as 1-100
   rating100: Int
   organized: Boolean
+  favorite: Boolean
   scene_ids: [ID!]
   studio_id: ID
   tag_ids: [ID!]
@@ -90,6 +93,7 @@ input BulkGalleryUpdateInput {
   # rating expressed as 1-100
   rating100: Int
   organized: Boolean
+  favorite: Boolean
   scene_ids: BulkUpdateIds
   studio_id: ID
   tag_ids: BulkUpdateIds

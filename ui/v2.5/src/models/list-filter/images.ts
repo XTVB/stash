@@ -5,7 +5,10 @@ import {
   createMandatoryTimestampCriterionOption,
   createDateCriterionOption,
 } from "./criteria/criterion";
-import { PerformerFavoriteCriterionOption } from "./criteria/favorite";
+import {
+  FavoriteImageCriterionOption,
+  PerformerFavoriteCriterionOption,
+} from "./criteria/favorite";
 import { ImageIsMissingCriterionOption } from "./criteria/is-missing";
 import { OrganizedCriterionOption } from "./criteria/organized";
 import { PathCriterionOption } from "./criteria/path";
@@ -58,6 +61,7 @@ const criterionOptions = [
   FolderCriterionOption,
   GalleriesCriterionOption,
   OrganizedCriterionOption,
+  FavoriteImageCriterionOption,
   createMandatoryNumberCriterionOption("o_counter", "o_count", {
     sfwMessageID: "o_count_sfw",
   }),

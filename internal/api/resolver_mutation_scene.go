@@ -51,6 +51,7 @@ func (r *mutationResolver) SceneCreate(ctx context.Context, input models.SceneCr
 	newScene.Director = translator.string(input.Director)
 	newScene.Rating = input.Rating100
 	newScene.Organized = translator.bool(input.Organized)
+	newScene.Favorite = translator.bool(input.Favorite)
 	newScene.StashIDs = models.NewRelatedStashIDs(models.StashIDInputs(input.StashIds).ToStashIDs())
 
 	newScene.Date, err = translator.datePtr(input.Date)
@@ -199,6 +200,7 @@ func scenePartialFromInput(input models.SceneUpdateInput, translator changesetTr
 
 	updatedScene.PlayDuration = translator.optionalFloat64(input.PlayDuration, "play_duration")
 	updatedScene.Organized = translator.optionalBool(input.Organized, "organized")
+	updatedScene.Favorite = translator.optionalBool(input.Favorite, "favorite")
 	updatedScene.StashIDs = translator.updateStashIDs(input.StashIds, "stash_ids")
 
 	var err error
@@ -372,6 +374,7 @@ func (r *mutationResolver) BulkSceneUpdate(ctx context.Context, input BulkSceneU
 	updatedScene.Director = translator.optionalString(input.Director, "director")
 	updatedScene.Rating = translator.optionalInt(input.Rating100, "rating100")
 	updatedScene.Organized = translator.optionalBool(input.Organized, "organized")
+	updatedScene.Favorite = translator.optionalBool(input.Favorite, "favorite")
 
 	updatedScene.Date, err = translator.optionalDate(input.Date, "date")
 	if err != nil {

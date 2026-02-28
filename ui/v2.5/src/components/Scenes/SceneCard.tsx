@@ -27,6 +27,8 @@ import { objectPath, objectTitle } from "src/core/files";
 import { PreviewScrubber } from "./PreviewScrubber";
 import { PatchComponent } from "src/patch";
 import { StudioOverlay } from "../Shared/GridCard/StudioOverlay";
+import { FavoriteIcon } from "../Shared/FavoriteIcon";
+import { useSceneUpdate } from "src/core/StashService";
 import { GroupTag } from "../Groups/GroupTag";
 import { FileSize } from "../Shared/FileSize";
 import { OCounterButton } from "../Shared/CountButton";
@@ -345,13 +347,30 @@ const SceneCardDetails = PatchComponent(
 const SceneCardOverlays = PatchComponent(
   "SceneCard.Overlays",
   (props: ISceneCardProps) => {
-    const ret = useMemo(() => {
-      return (
-        <StudioOverlay studio={props.scene.studio} disabled={props.selecting} />
-      );
-    }, [props.scene.studio, props.selecting]);
+    const [updateScene] = useSceneUpdate();
 
-    return ret;
+    function onToggleFavorite(v: boolean) {
+      updateScene({
+        variables: {
+          input: {
+            id: props.scene.id,
+            favorite: v,
+          },
+        },
+      });
+    }
+
+    return (
+      <>
+        <FavoriteIcon
+          favorite={props.scene.favorite}
+          onToggleFavorite={onToggleFavorite}
+          size="2x"
+          className="hide-not-favorite"
+        />
+        <StudioOverlay studio={props.scene.studio} disabled={props.selecting} />
+      </>
+    );
   }
 );
 

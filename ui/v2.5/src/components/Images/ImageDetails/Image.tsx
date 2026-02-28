@@ -20,6 +20,7 @@ import * as Mousetrap from "mousetrap";
 import * as GQL from "src/core/generated-graphql";
 import { OCounterButton } from "src/components/Scenes/SceneDetails/OCounterButton";
 import { OrganizedButton } from "src/components/Scenes/SceneDetails/OrganizedButton";
+import { FavoriteIcon } from "src/components/Shared/FavoriteIcon";
 import { ImageFileInfoPanel } from "./ImageFileInfoPanel";
 import { ImageEditPanel } from "./ImageEditPanel";
 import { ImageDetailPanel } from "./ImageDetailPanel";
@@ -115,6 +116,21 @@ const ImagePage: React.FC<IProps> = ({ image }) => {
       Toast.error(e);
     } finally {
       setOrganizedLoading(false);
+    }
+  };
+
+  const setFavorite = async (v: boolean) => {
+    try {
+      await updateImage({
+        variables: {
+          input: {
+            id: image.id,
+            favorite: v,
+          },
+        },
+      });
+    } catch (e) {
+      Toast.error(e);
     }
   };
 
@@ -362,6 +378,12 @@ const ImagePage: React.FC<IProps> = ({ image }) => {
                 onIncrement={onIncrementClick}
                 onDecrement={onDecrementClick}
                 onReset={onResetClick}
+              />
+            </span>
+            <span>
+              <FavoriteIcon
+                favorite={image.favorite}
+                onToggleFavorite={(v) => setFavorite(v)}
               />
             </span>
             <span>
