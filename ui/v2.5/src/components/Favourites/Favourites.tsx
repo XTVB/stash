@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { Tab, Tabs, Dropdown } from "react-bootstrap";
+import React from "react";
+import { Tab } from "react-bootstrap";
 import { useRouteMatch } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { FormattedMessage, useIntl } from "react-intl";
+import { useIntl } from "react-intl";
 import { useTitleProps } from "src/hooks/title";
-import { useTabKey } from "src/components/Shared/DetailsPage/Tabs";
-import { Icon } from "src/components/Shared/Icon";
-import { faCog } from "@fortawesome/free-solid-svg-icons";
+import {
+  useTabKey,
+  StashTabs,
+} from "src/components/Shared/DetailsPage/Tabs";
 import { lazyComponent } from "src/utils/lazyComponent";
 import { View } from "src/components/List/views";
 import { ListFilterModel } from "src/models/list-filter/filter";
@@ -38,16 +39,6 @@ const FilteredPerformerList = lazyComponent(async () => {
 });
 
 const validTabs = ["scenes", "images", "galleries", "performers"] as const;
-type FavTab = (typeof validTabs)[number];
-const STORAGE_KEY = "favourites.defaultTab";
-
-function getDefaultTab(): FavTab {
-  const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored && (validTabs as readonly string[]).includes(stored)) {
-    return stored as FavTab;
-  }
-  return "images";
-}
 
 function makeFavoriteFilterHook(
   CriterionClass: new () => { value: string },
@@ -82,70 +73,35 @@ const performerFavoriteHook = makeFavoriteFilterHook(
 
 const FavouriteTabs: React.FC<{ tabKey?: string }> = ({ tabKey }) => {
   const intl = useIntl();
-  const [showSettings, setShowSettings] = useState(false);
 
-  const { setTabKey } = useTabKey({
+  const { tabsProps } = useTabKey({
     tabKey,
     validTabs,
-    defaultTabKey: getDefaultTab(),
+    defaultTabKey: "images",
     baseURL: "/favourites",
   });
 
   return (
-    <>
-      <div className="d-flex align-items-center mb-3">
-        <h2 className="m-0">
-          <FormattedMessage id="favourites" />
-        </h2>
-        <Dropdown
-          show={showSettings}
-          onToggle={(isOpen) => setShowSettings(isOpen)}
-          className="ml-2"
-        >
-          <Dropdown.Toggle
-            variant="secondary"
-            size="sm"
-            id="favourites-settings"
-          >
-            <Icon icon={faCog} />
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Header>
-              <FormattedMessage
-                id="default_tab"
-                defaultMessage="Default Tab"
-              />
-            </Dropdown.Header>
-            {validTabs.map((tab) => (
-              <Dropdown.Item
-                key={tab}
-                active={getDefaultTab() === tab}
-                onClick={() => {
-                  localStorage.setItem(STORAGE_KEY, tab);
-                  setShowSettings(false);
-                }}
-              >
-                <FormattedMessage id={tab} />
-              </Dropdown.Item>
-            ))}
-          </Dropdown.Menu>
-        </Dropdown>
-      </div>
-      <Tabs
+    <StashTabs
       id="favourites-tabs"
       mountOnEnter
       unmountOnExit
-      activeKey={tabKey}
-      onSelect={setTabKey}
+      {...tabsProps}
     >
-      <Tab eventKey="scenes" title={intl.formatMessage({ id: "scenes" })}>
+      <Tab
+        eventKey="scenes"
+        title={intl.formatMessage({ id: "scenes" })}
+      >
         <FilteredSceneList
           filterHook={sceneFavoriteHook}
           alterQuery={tabKey === "scenes"}
           view={View.FavouriteScenes}
         />
       </Tab>
-      <Tab eventKey="images" title={intl.formatMessage({ id: "images" })}>
+      <Tab
+        eventKey="images"
+        title={intl.formatMessage({ id: "images" })}
+      >
         <FilteredImageList
           filterHook={imageFavoriteHook}
           alterQuery={tabKey === "images"}
@@ -172,8 +128,7 @@ const FavouriteTabs: React.FC<{ tabKey?: string }> = ({ tabKey }) => {
           view={View.FavouritePerformers}
         />
       </Tab>
-    </Tabs>
-    </>
+    </StashTabs>
   );
 };
 
@@ -183,9 +138,11 @@ const Favourites: React.FC = () => {
   const tabKey = match?.params.tab;
 
   return (
-    <div className="favourites-page">
-      <Helmet {...titleProps} />
-      <FavouriteTabs tabKey={tabKey} />
+    <div className="row">
+      <div className="detail-body">
+        <Helmet {...titleProps} />
+        <FavouriteTabs tabKey={tabKey} />
+      </div>
     </div>
   );
 };

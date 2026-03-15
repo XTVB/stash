@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { Button, Tabs, Tab, Col, Row } from "react-bootstrap";
+import { Button, Tab, Col, Row } from "react-bootstrap";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useHistory, Redirect, RouteComponentProps } from "react-router-dom";
 import { Helmet } from "react-helmet";
@@ -39,6 +39,7 @@ import { BackgroundImage } from "src/components/Shared/DetailsPage/BackgroundIma
 import {
   TabTitleCounter,
   useTabKey,
+  StashTabs,
 } from "src/components/Shared/DetailsPage/Tabs";
 import { DetailTitle } from "src/components/Shared/DetailsPage/DetailTitle";
 import { ExpandCollapseButton } from "src/components/Shared/CollapseButton";
@@ -95,7 +96,7 @@ const PerformerTabs: React.FC<{
     return ret;
   }, [performer]);
 
-  const { setTabKey } = useTabKey({
+  const { setTabKey, tabsProps } = useTabKey({
     tabKey,
     validTabs,
     defaultTabKey: populatedDefaultTab,
@@ -119,12 +120,11 @@ const PerformerTabs: React.FC<{
   if (!tabKey) return null;
 
   return (
-    <Tabs
+    <StashTabs
       id="performer-tabs"
       mountOnEnter
       unmountOnExit
-      activeKey={tabKey}
-      onSelect={setTabKey}
+      {...tabsProps}
     >
       <Tab
         eventKey="scenes"
@@ -205,7 +205,7 @@ const PerformerTabs: React.FC<{
           performer={performer}
         />
       </Tab>
-    </Tabs>
+    </StashTabs>
   );
 };
 

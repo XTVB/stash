@@ -38,8 +38,9 @@ import { LightboxLink } from "src/hooks/Lightbox/LightboxLink";
 import {
   TabTitleCounter,
   useTabKey,
+  StashTabs,
 } from "src/components/Shared/DetailsPage/Tabs";
-import { Button, Tab, Tabs } from "react-bootstrap";
+import { Button, Tab } from "react-bootstrap";
 import { GroupSubGroupsPanel } from "./GroupSubGroupsPanel";
 import { GroupPerformersPanel } from "./GroupPerformersPanel";
 import { Icon } from "src/components/Shared/Icon";
@@ -75,7 +76,7 @@ const GroupTabs: React.FC<{
     return "scenes";
   }, [sceneCount, performerCount, groupCount]);
 
-  const { setTabKey } = useTabKey({
+  const { setTabKey, tabsProps } = useTabKey({
     tabKey,
     validTabs,
     defaultTabKey: populatedDefaultTab,
@@ -83,12 +84,11 @@ const GroupTabs: React.FC<{
   });
 
   return (
-    <Tabs
+    <StashTabs
       id="group-tabs"
       mountOnEnter
       unmountOnExit
-      activeKey={tabKey}
-      onSelect={setTabKey}
+      {...tabsProps}
     >
       <Tab
         eventKey="scenes"
@@ -126,7 +126,7 @@ const GroupTabs: React.FC<{
       >
         <GroupSubGroupsPanel active={tabKey === "subgroups"} group={group} />
       </Tab>
-    </Tabs>
+    </StashTabs>
   );
 };
 
