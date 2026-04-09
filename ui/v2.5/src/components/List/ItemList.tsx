@@ -14,6 +14,7 @@ import {
   useQueryResult,
   useScrollToTopOnPageChange,
 } from "./util";
+import { useScrollRestoration } from "../../hooks/scrollRestoration";
 import { useConfigurationContext } from "src/hooks/Config";
 
 interface IFilteredItemList<
@@ -55,6 +56,9 @@ export function useFilteredItemList<
 
   // Utility hooks
   const { setPage } = useFilterOperations({ filter, setFilter });
+
+  // restore scroll position on back navigation
+  useScrollRestoration(result.loading);
 
   // scroll to the top of the page when the page changes
   useScrollToTopOnPageChange(filter.currentPage, result.loading);

@@ -598,7 +598,11 @@ export function useScrollToTopOnPageChange(
   currentPage: number,
   loading: boolean
 ) {
+  const history = useHistory();
   const prevPage = usePrevious(currentPage);
+  const isFirstChange = useRef(true);
+  // Capture during render — history.action is already set before re-render
+  const wasPopNav = useRef(history.action === "POP");
 
   // scroll to the top of the page when the page changes
   // only scroll to top if the page has changed and is not loading
@@ -606,6 +610,15 @@ export function useScrollToTopOnPageChange(
     if (loading || currentPage === prevPage || prevPage === undefined) {
       return;
     }
+
+    // On back navigation, skip the first page change — it's the filter
+    // syncing from URL params (e.g. default page 1 → URL page 2),
+    // not a user-initiated page change
+    if (isFirstChange.current && wasPopNav.current) {
+      isFirstChange.current = false;
+      return;
+    }
+    isFirstChange.current = false;
 
     // if the current page has a detail-header, then
     // scroll up relative to that rather than 0, 0
