@@ -63,6 +63,7 @@ const criterionOptions = [
   OrganizedCriterionOption,
   FavoriteGalleryCriterionOption,
   AverageResolutionCriterionOption,
+  createMandatoryNumberCriterionOption("average_min_resolution"),
   GalleryIsMissingCriterionOption,
   TagsCriterionOption,
   HasChaptersCriterionOption,

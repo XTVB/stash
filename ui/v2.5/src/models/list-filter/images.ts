@@ -66,6 +66,7 @@ const criterionOptions = [
     sfwMessageID: "o_count_sfw",
   }),
   ResolutionCriterionOption,
+  createMandatoryNumberCriterionOption("min_resolution"),
   OrientationCriterionOption,
   ImageIsMissingCriterionOption,
   TagsCriterionOption,
