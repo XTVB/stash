@@ -574,7 +574,7 @@ func (t *autoTagFilesTask) processScenes(ctx context.Context) {
 		return
 	}
 
-	workers := config.GetInstance().GetParallelTasksWithAutoDetection()
+	workers := config.GetInstance().GetParallelTasksWithAutoDetection() * 2
 	logger.Infof("Auto-tagging scenes (workers=%d)...", workers)
 
 	const batchSize = 1000
@@ -648,7 +648,7 @@ func (t *autoTagFilesTask) processImages(ctx context.Context) {
 		return
 	}
 
-	workers := config.GetInstance().GetParallelTasksWithAutoDetection()
+	workers := config.GetInstance().GetParallelTasksWithAutoDetection() * 2
 	logger.Infof("Auto-tagging images (workers=%d)...", workers)
 
 	const batchSize = 1000
@@ -722,7 +722,7 @@ func (t *autoTagFilesTask) processGalleries(ctx context.Context) {
 		return
 	}
 
-	workers := config.GetInstance().GetParallelTasksWithAutoDetection()
+	workers := config.GetInstance().GetParallelTasksWithAutoDetection() * 2
 	logger.Infof("Auto-tagging galleries (workers=%d)...", workers)
 
 	const batchSize = 1000
