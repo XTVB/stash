@@ -17,6 +17,8 @@ input GenerateMetadataInput {
   imagePhashes: Boolean
   imageThumbnails: Boolean
   clipPreviews: Boolean
+  "Generate per-gallery contact-sheet cover montages"
+  contactSheets: Boolean
 
   "scene ids to generate for"
   sceneIDs: [ID!]

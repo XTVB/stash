@@ -115,6 +115,9 @@ func (s *Manager) RefreshConfig() {
 		if err := fsutil.EnsureDir(s.Paths.Generated.InteractiveHeatmap); err != nil {
 			logger.Warnf("could not create interactive heatmaps directory: %v", err)
 		}
+		if err := fsutil.EnsureDir(s.Paths.Generated.GalleryCovers); err != nil {
+			logger.Warnf("could not create gallery covers directory: %v", err)
+		}
 
 		s.ImageThumbnailGenerateWaitGroup.Size = cfg.GetParallelTasksWithAutoDetection()
 	}

@@ -5,6 +5,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { Helmet } from "react-helmet";
 import * as GQL from "src/core/generated-graphql";
 import {
+  mutateMetadataGenerate,
   mutateMetadataScan,
   mutateResetGalleryCover,
   useFindGallery,
@@ -178,6 +179,20 @@ export const GalleryPage: React.FC<IProps> = ({ gallery, add }) => {
     }
   }
 
+  async function onGenerateContactSheet() {
+    try {
+      await mutateMetadataGenerate({
+        galleryIDs: [gallery.id],
+        contactSheets: true,
+        overwrite: true,
+      });
+
+      Toast.success(intl.formatMessage({ id: "toast.started_generating" }));
+    } catch (e) {
+      Toast.error(e);
+    }
+  }
+
   async function onClickChapter(imageindex: number) {
     showLightbox(imageindex - 1);
   }
@@ -240,6 +255,12 @@ export const GalleryPage: React.FC<IProps> = ({ gallery, add }) => {
             onClick={() => onResetCover()}
           >
             <FormattedMessage id="actions.reset_cover" />
+          </Dropdown.Item>
+          <Dropdown.Item
+            className="bg-secondary text-white"
+            onClick={() => onGenerateContactSheet()}
+          >
+            <FormattedMessage id="actions.generate_contact_sheet" />
           </Dropdown.Item>
           <Dropdown.Item
             className="bg-secondary text-white"

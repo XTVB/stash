@@ -3079,6 +3079,39 @@ func TestGallerySetAndResetCover(t *testing.T) {
 	})
 }
 
+func TestGalleryHasGeneratedCover(t *testing.T) {
+	withTxn(func(ctx context.Context) error {
+		sqb := db.Gallery
+		galleryID := galleryIDs[galleryIdxWithTwoImages]
+
+		g, err := sqb.Find(ctx, galleryID)
+		assert.Nil(t, err)
+		if assert.NotNil(t, g) {
+			assert.False(t, g.HasGeneratedCover)
+		}
+
+		err = sqb.SetHasGeneratedCover(ctx, galleryID, true)
+		assert.Nil(t, err)
+
+		g, err = sqb.Find(ctx, galleryID)
+		assert.Nil(t, err)
+		if assert.NotNil(t, g) {
+			assert.True(t, g.HasGeneratedCover)
+		}
+
+		err = sqb.SetHasGeneratedCover(ctx, galleryID, false)
+		assert.Nil(t, err)
+
+		g, err = sqb.Find(ctx, galleryID)
+		assert.Nil(t, err)
+		if assert.NotNil(t, g) {
+			assert.False(t, g.HasGeneratedCover)
+		}
+
+		return nil
+	})
+}
+
 func TestGalleryQueryCustomFields(t *testing.T) {
 	tests := []struct {
 		name        string

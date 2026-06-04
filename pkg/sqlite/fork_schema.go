@@ -34,6 +34,7 @@ var forkColumns = []forkColumn{
 	{Table: "scenes", Column: "favorite", Definition: "boolean NOT NULL DEFAULT '0'"},
 	{Table: "images", Column: "favorite", Definition: "boolean NOT NULL DEFAULT '0'"},
 	{Table: "galleries", Column: "favorite", Definition: "boolean NOT NULL DEFAULT '0'"},
+	{Table: "galleries", Column: "has_generated_cover", Definition: "boolean NOT NULL DEFAULT '0'"},
 }
 
 // ensureForkSchema idempotently applies all fork-specific schema changes.
